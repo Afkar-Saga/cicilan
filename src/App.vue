@@ -11,6 +11,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink :to="{ name: 'cicilan' }">Cicilan</RouterLink>
+        <RouterLink :to="{ name: 'tambah-cicilan' }">Tambah Cicilan</RouterLink>
         <RouterLink :to="{ name: 'riwayat' }">Riwayat</RouterLink>
       </nav>
     </div>

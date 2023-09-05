@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import CicilanView from '../views/CicilanView.vue'
+import RiwayatView from '../views/RiwayatView.vue'
+import TambahCicilanView from '../views/TambahCicilanView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,15 +15,17 @@ const router = createRouter({
     {
       path: '/cicilan',
       name: 'cicilan',
-      // route level code-splitting
-      // this generates a separate chunk (Cicilan.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/CicilanView.vue')
+      component: CicilanView
     },
     {
       path: '/riwayat',
       name: 'riwayat',
-      component: () => import('../views/RiwayatView.vue')
+      component: RiwayatView
+    },
+    {
+      path: '/tambah-cicilan',
+      name: 'tambah-cicilan',
+      component: TambahCicilanView
     }
   ]
 })
