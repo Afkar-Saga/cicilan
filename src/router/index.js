@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import CicilanView from '../views/CicilanView.vue'
 import RiwayatView from '../views/RiwayatView.vue'
 import TambahCicilanView from '../views/TambahCicilanView.vue'
+import DetailCicilanView from '../views/DetailCicilanView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,8 +25,14 @@ const router = createRouter({
     },
     {
       path: '/tambah-cicilan',
-      name: 'tambah-cicilan',
+      name: 'tambahCicilan',
       component: TambahCicilanView
+    },
+    {
+      path: '/cicilan/:id',
+      name: 'detailCicilan',
+      component: DetailCicilanView,
+      props: true
     }
   ]
 })
