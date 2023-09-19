@@ -11,7 +11,7 @@
       <input type="file" name="bukti" id="bukti">
     </div>
     <div class="btn-container">
-      <button type="submit" class="btn-bayar">Bayar</button>
+      <button @click="bayarCicilan()" type="submit" class="btn-bayar">Bayar</button>
     </div>
   </div>
 </template>
@@ -40,6 +40,30 @@
       style: "currency",
       currency: "IDR"
     }).format(number);
+  }
+
+  function bayarCicilan() {
+    setSisaCicilan()
+    setRiwayat()
+    alert("Cicilan berhasil dibayar")
+  }
+  async function setSisaCicilan() {
+    const { error } = await supabase
+    .from('pinjaman')
+    .update({
+      sisa_cicilan: cicilan.value.sisa_cicilan - (cicilan.value.jumlah_pinjaman / cicilan.value.jangka_waktu)
+    })
+    .eq('id', id)
+    if (error) throw error
+  }
+  async function setRiwayat() {
+    const { error} = await supabase
+    .from('riwayat')
+    .insert({
+      cicilan: id,
+      sisa_cicilan: cicilan.value.sisa_cicilan
+    })
+    if (error) throw error
   }
 
   onMounted(() => {
