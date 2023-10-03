@@ -4,21 +4,30 @@
     <div class="details">Total Jumlah Pinjaman: <br /> <span class="value">{{ rupiah(cicilan.jumlah_pinjaman) }}</span></div>
     <div class="details">Jangka Waktu Pelunasan: <br /> <span class="value">{{ cicilan.jangka_waktu }} Bulan</span></div>
     <div class="details">Tanggal Pelunasan: <br /> <span class="value">{{ cicilan.tanggal_pelunasan }}</span></div>
-    <div class="angsuran">Angsuran per Bulan: <span class="value">{{ rupiah(cicilan.jumlah_pinjaman / cicilan.jangka_waktu) }}</span></div>
-    <div class="form-pembayaran">
-      <div class="title">Form Pembayaran</div>
-      <label for="bukti">Foto Bukti Pembayaran:</label> <br />
-      <input type="file" name="bukti" id="bukti">
+
+    <div class="detail-bayar" v-if="cicilan.sisa_cicilan > 0">
+      <div class="sisa">Sisa Cicilan: <span class="value">{{ rupiah(cicilan.sisa_cicilan) }}</span></div>
+      <div class="angsuran">Angsuran per Bulan: <span class="value">{{ rupiah(cicilan.jumlah_pinjaman / cicilan.jangka_waktu) }}</span></div>
+      <div class="form-pembayaran">
+        <div class="title">Form Pembayaran</div>
+        <label for="bukti">Foto Bukti Pembayaran:</label> <br />
+        <input type="file" name="bukti" id="bukti">
+      </div>
+      <div class="btn-container">
+        <button @click="bayarCicilan()" type="submit" class="btn-bayar">Bayar</button>
+      </div>
     </div>
-    <div class="btn-container">
-      <button @click="bayarCicilan()" type="submit" class="btn-bayar">Bayar</button>
+    <div class="lunas" v-else>
+      LUNAS
     </div>
   </div>
 </template>
 
 <script setup>
   import { ref, onMounted } from 'vue'
+  import router from '../router/index'
   import supabase from '../lib/supabaseClient'
+  import rupiah from '../lib/rupiah'
 
   const props = defineProps(['id'])
   const id = props.id
@@ -35,17 +44,11 @@
     if (data) cicilan.value = data
   }
 
-  const rupiah = (number)=>{
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR"
-    }).format(number);
-  }
-
   function bayarCicilan() {
     setSisaCicilan()
     setRiwayat()
     alert("Cicilan berhasil dibayar")
+    router.push('/cicilan')
   }
   async function setSisaCicilan() {
     const { error } = await supabase
@@ -61,7 +64,7 @@
     .from('riwayat')
     .insert({
       cicilan: id,
-      sisa_cicilan: cicilan.value.sisa_cicilan
+      sisa_cicilan: cicilan.value.sisa_cicilan - (cicilan.value.jumlah_pinjaman / cicilan.value.jangka_waktu)
     })
     if (error) throw error
   }
@@ -88,24 +91,39 @@
     padding: 2em;
     font-size: 1.3em;
   }
+  .detail-bayar {
+    grid-column: 1 / span 3;
+  }
   .value {
     color: #33b513;
     font-size: 1.3em;
   }
+  .sisa {
+    padding: 1rem;
+    font-size: 2em;
+    text-align: center;
+  }
   .angsuran {
     padding: 1rem;
-    grid-column: 1 / span 3;
     font-size: 3em;
     text-align: center;
   }
   .form-pembayaran {
     font-size: 1.5em;
     padding: 30px;
-    grid-column: 1 / span 2;
+    text-align: center;
   }
   .form-pembayaran .title {
     font-size: 1.5em;
     margin-bottom: 20px;
+  }
+  .lunas {
+    text-align: center;
+    padding: 1rem;
+    margin-top: 1em;
+    font-size: 7em;
+    color: #33b513;
+    grid-column: 1/ span 3;
   }
   .btn-container {
     display: flex;

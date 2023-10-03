@@ -2,7 +2,6 @@
   import { ref } from 'vue'
   import router from '../router/index'
   import supabase from '../lib/supabaseClient'
-  console.log(supabase)
 
   const nama = ref()
   const jumlah = ref()
