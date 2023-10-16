@@ -12,6 +12,7 @@
 			:waktu="c.jangka_waktu"
       :sisa="c.sisa_cicilan" />
 	</div>
+  <RiwayatView :limit=5 />
 </template>
 
 <script setup>
@@ -19,6 +20,7 @@ import { ref, onMounted } from "vue"
 import supabase from "../lib/supabaseClient"
 
 import CicilanCard from "../components/CicilanCard.vue"
+import RiwayatView from "./RiwayatView.vue"
 
 const cicilan = ref({})
 

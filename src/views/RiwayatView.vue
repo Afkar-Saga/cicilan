@@ -1,7 +1,14 @@
 <template>
   <h1>Riwayat Cicilan</h1>
-  <table v-for="(pembayaran, index) in riwayat">
+  <div v-if="loading">Loading...</div>
+  <table>
     <tr>
+      <th>No.</th>
+      <th>Nama Pinjaman</th>
+      <th>Tanggal Pembayaran</th>
+      <th>Sisa Cicilan</th>
+    </tr>
+    <tr v-for="(pembayaran, index) in riwayat">
       <td>{{ index+1 }}</td>
       <td>{{ pembayaran.pinjaman.nama_pinjaman }}</td>
       <td>{{ pembayaran.tanggal_pembayaran }}</td>
@@ -16,8 +23,13 @@ import supabase from '../lib/supabaseClient';
 import rupiah from '../lib/rupiah'
 
 const riwayat = ref({})
+const loading = ref(false)
+const props = defineProps({
+  limit: Number
+})
 
 async function getRiwayat() {
+  loading.value = true
   const { data, error } = await supabase
   .from('riwayat')
   .select(`
@@ -28,11 +40,26 @@ async function getRiwayat() {
       nama_pinjaman
     )
   `)
+  .order('tanggal_pembayaran', {ascending: false})
+  .limit(props.limit)
   if (error) throw error
   if (data) riwayat.value = data
+  loading.value = false
 }
 
 onMounted(() => {
   getRiwayat()
 })
 </script>
+
+<style scoped>
+table, th, td {
+  border: 1px solid #fafafa;
+}
+table {
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px 15px;
+}
+</style>

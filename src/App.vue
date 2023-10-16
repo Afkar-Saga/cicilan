@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
+import router from './router/index'
 import supabase from './lib/supabaseClient'
 
 const session = ref()
@@ -8,7 +9,10 @@ const session = ref()
 async function logout() {
   const { error } = await supabase.auth.signOut()
   if (error) console.log(error)
-  else console.log("logout succesful")
+  else {
+    console.log("logout succesful")
+    router.push('/login')
+  }
 }
 
 onMounted(() => {
@@ -88,7 +92,7 @@ nav a {
 }
 
 nav .auth {
-  background-color: #dde8b3;
+  border: 3px solid #dde8b3;
   color: #a8200d;
   padding: 10px;
   border-radius: 30px;
