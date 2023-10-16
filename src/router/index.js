@@ -16,14 +16,12 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
-      meta: { requiresAuth: true }
+      component: HomeView
     },
     {
       path: '/cicilan',
       name: 'cicilan',
-      component: CicilanView,
-      meta: { requiresAuth: true }
+      component: CicilanView
     },
     {
       path: '/riwayat',
@@ -50,7 +48,8 @@ const router = createRouter({
       path: '/cicilan/:id',
       name: 'detailCicilan',
       component: DetailCicilanView,
-      props: true
+      props: true,
+      meta: { requiresAuth: true }
     }
   ]
 })
