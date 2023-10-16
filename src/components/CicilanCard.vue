@@ -1,7 +1,10 @@
 <script setup>
   import router from '../router/index'
+  import { ref } from 'vue'
 
-  const props = defineProps(['id', 'nama', 'jumlah', 'waktu', 'lunas'])
+  const props = defineProps(['id', 'nama', 'jumlah', 'waktu', 'lunas', 'sisa'])
+
+  const sudahLunas = !(props.sisa > 0)
 
   function navigateToDetail(cicilanId) {
     router.push({ name: 'detailCicilan', params: { id: cicilanId }})
@@ -9,7 +12,7 @@
 </script>
 
 <template>
-  <div class="cicilan-card">
+  <div class="cicilan-card" :class="{ lunas: sudahLunas }">
     <div class="container">
       <h3 class="nama">{{ props.nama }}</h3>
       <p>Jumlah Pinjaman: Rp.{{ props.jumlah }}</p>
@@ -22,8 +25,13 @@
 
 <style scoped>
   .cicilan-card {
+    background: linear-gradient(to bottom left, #1c5a0f, #033012, #050c00);
     box-shadow: 0 4px 9px 0 rgba(0, 0, 0, 0.3);
     border-radius: 10px;
+  }
+  .cicilan-card.lunas {
+    background: #111;
+    color: #696969;
   }
   .cicilan-card .container {
     padding: 27px 16px 36px;
@@ -31,20 +39,19 @@
     flex-direction: column;
   }
   .cicilan-card .nama {
-    font-size: 1.3rem;
-    color: var(--color-heading);
+    font-size: 1.4rem;
     text-align: center;
     margin-bottom: 10px;
   }
   .cicilan-card .btn-detail {
-    background-color: var(--color-background-soft);
-    font-size: 1.1em;
-    color: var(--color-text);
+    background-color: #182b1ad1;
+    color: white;
+    font-size: 1.1rem;
     margin-top: 10px;
     padding: 9px 16px;
     align-self: flex-end;
     text-decoration: none;
-    border: 3px outset var(--color-border);
+    border: 3px outset #222;
     border-radius: 5px;
     cursor: pointer;
     transition: 0.2s;
@@ -53,7 +60,6 @@
     box-shadow: 0 5px rgba(55, 55, 55, 0.9);
   }
   .cicilan-card .btn-detail:active {
-    background-color: var(--color-background-mute);
     box-shadow: 0 3px rgba(33, 33, 33, 0.3);
     transform: translateY(2px);
   }

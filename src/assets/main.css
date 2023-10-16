@@ -1,14 +1,30 @@
-@import './base.css';
+* {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, 'Franklin Gothic', sans-serif;
+}
+
+body {
+  background-image: linear-gradient(to right, #3e9c35, #168118);
+  color: #22222f;
+  font-size: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-image: linear-gradient(to right, #133613, #001c01);
+    color: #f4f4ff;
+  }
+}
 
 #app {
   margin: 0;
-  
   font-weight: normal;
 }
 
 a {
   text-decoration: none;
-  color: var(--color-text);
+  color: #dde8b3;
   transition: 0.4s;
 }
 

@@ -1,5 +1,6 @@
 <template>
-  <div class="container">
+  <div v-if="loading">Loading...</div>
+  <div v-else class="container">
     <h1 class="title">{{ cicilan.nama_pinjaman }}</h1>
     <div class="details">Total Jumlah Pinjaman: <br /> <span class="value">{{ rupiah(cicilan.jumlah_pinjaman) }}</span></div>
     <div class="details">Jangka Waktu Pelunasan: <br /> <span class="value">{{ cicilan.jangka_waktu }} Bulan</span></div>
@@ -32,8 +33,10 @@
   const props = defineProps(['id'])
   const id = props.id
   const cicilan = ref({})
+  const loading = ref(false)
 
   async function getPinjamanDetail() {
+    loading.value = true
     const { data, error } = await supabase
     .from('pinjaman')
     .select()
@@ -42,6 +45,7 @@
 
     if (error) throw error
     if (data) cicilan.value = data
+    loading.value = false
   }
 
   function bayarCicilan() {
@@ -81,15 +85,15 @@
   }
   .container .title {
     grid-column: 1 / span 3;
-    font-size: 4em;
+    font-size: 4rem;
   }
   .title {
-    font-size: 1.3em;
+    font-size: 1.3rem;
     text-align: center;
   }
   .details {
-    padding: 2em;
-    font-size: 1.3em;
+    padding: 2rem;
+    font-size: 1.3rem;
   }
   .detail-bayar {
     grid-column: 1 / span 3;
@@ -100,16 +104,16 @@
   }
   .sisa {
     padding: 1rem;
-    font-size: 2em;
+    font-size: 2rem;
     text-align: center;
   }
   .angsuran {
     padding: 1rem;
-    font-size: 3em;
+    font-size: 3rem;
     text-align: center;
   }
   .form-pembayaran {
-    font-size: 1.5em;
+    font-size: 2rem;
     padding: 30px;
     text-align: center;
   }
@@ -120,9 +124,9 @@
   .lunas {
     text-align: center;
     padding: 1rem;
-    margin-top: 1em;
-    font-size: 7em;
-    color: #33b513;
+    margin-top: 1rem;
+    font-size: 7rem;
+    color: #18f300;
     grid-column: 1/ span 3;
   }
   .btn-container {
