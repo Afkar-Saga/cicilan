@@ -72,8 +72,7 @@ nav {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  font-size: 0.8rem;
-  margin-top: 2rem;
+  font-size: 1rem;
 }
 
 nav a.router-link-exact-active {
@@ -105,12 +104,12 @@ nav .auth:hover {
 main {
   max-height: 100vh;
   padding: 4rem;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 @media (min-width: 600px) {
   nav {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
 }
 

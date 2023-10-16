@@ -1,20 +1,22 @@
 <template>
   <h1>Riwayat Cicilan</h1>
   <div v-if="loading">Loading...</div>
-  <table>
-    <tr>
-      <th>No.</th>
-      <th>Nama Pinjaman</th>
-      <th>Tanggal Pembayaran</th>
-      <th>Sisa Cicilan</th>
-    </tr>
-    <tr v-for="(pembayaran, index) in riwayat">
-      <td>{{ index+1 }}</td>
-      <td>{{ pembayaran.pinjaman.nama_pinjaman }}</td>
-      <td>{{ pembayaran.tanggal_pembayaran }}</td>
-      <td>{{ rupiah(pembayaran.sisa_cicilan) }}</td>
-    </tr>
-  </table>
+  <div v-else class="riwayat-container">
+    <table>
+      <tr>
+        <th>No.</th>
+        <th>Nama Pinjaman</th>
+        <th>Tanggal Pembayaran</th>
+        <th>Sisa Cicilan</th>
+      </tr>
+      <tr v-for="(pembayaran, index) in riwayat">
+        <td>{{ index+1 }}</td>
+        <td>{{ pembayaran.pinjaman.nama_pinjaman }}</td>
+        <td>{{ pembayaran.tanggal_pembayaran }}</td>
+        <td>{{ rupiah(pembayaran.sisa_cicilan) }}</td>
+      </tr>
+    </table>
+  </div>
 </template>
 
 <script setup>
@@ -53,13 +55,23 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.riwayat-container {
+  overflow-x: auto;
+}
 table, th, td {
-  border: 1px solid #fafafa;
+  border: 1px solid #373;
 }
 table {
+  width: 100%;
   border-collapse: collapse;
 }
 th, td {
   padding: 5px 15px;
+}
+th {
+  background-color: #125313;
+}
+tr:hover {
+  background-color: #128937;
 }
 </style>
