@@ -1,6 +1,6 @@
 <script setup>
   import router from '../router/index'
-  import { ref } from 'vue'
+  import rupiah from '../lib/rupiah'
 
   const props = defineProps(['id', 'nama', 'jumlah', 'waktu', 'lunas', 'sisa'])
 
@@ -18,6 +18,8 @@
       <p>Jumlah Pinjaman: Rp.{{ props.jumlah }}</p>
       <p>Jangka Waktu: {{ props.waktu }} Bulan</p>
       <p>Tanggal Pelunasan: {{ props.lunas }}</p>
+      <p v-if="!sudahLunas">Sisa Cicilan: {{ rupiah(props.sisa) }}</p>
+      <p v-else>LUNAS</p>
       <button class="btn-detail" @click="navigateToDetail(props.id)">Detail</button>
     </div>
   </div>
@@ -39,9 +41,12 @@
     flex-direction: column;
   }
   .cicilan-card .nama {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     text-align: center;
     margin-bottom: 10px;
+  }
+  .cicilan-card p {
+    font-size: 1rem;
   }
   .cicilan-card .btn-detail {
     background-color: #182b1ad1;

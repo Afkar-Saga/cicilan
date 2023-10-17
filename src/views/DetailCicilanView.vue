@@ -48,33 +48,44 @@
     loading.value = false
   }
 
-  function bayarCicilan() {
-    setSisaCicilan()
+  async function bayarCicilan() {
+    setCicilan()
     setRiwayat()
-    alert("Cicilan berhasil dibayar")
     router.push('/cicilan')
   }
-  async function setSisaCicilan() {
-    const { error } = await supabase
+  async function setCicilan() {
+    let d = new Date(cicilan.value.tanggal_pelunasan)
+    d.setMonth(d.getMonth() + 1)
+    const {  data, error } = await supabase
     .from('pinjaman')
-    .update({
-      sisa_cicilan: cicilan.value.sisa_cicilan - (cicilan.value.jumlah_pinjaman / cicilan.value.jangka_waktu)
+    .upsert({
+      id: id,
+      sisa_cicilan: cicilan.value.sisa_cicilan - (cicilan.value.jumlah_pinjaman / cicilan.value.jangka_waktu),
+      tanggal_pelunasan: `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`
     })
-    .eq('id', id)
+    .select()
     if (error) throw error
+    if (data) {
+      console.log('Cicilan berhasil diupdate')
+      console.log(data)
+    }
   }
   async function setRiwayat() {
-    const { error} = await supabase
+    const { error } = await supabase
     .from('riwayat')
     .insert({
       cicilan: id,
       sisa_cicilan: cicilan.value.sisa_cicilan - (cicilan.value.jumlah_pinjaman / cicilan.value.jangka_waktu)
     })
     if (error) throw error
+    else console.log("Riwayat berhasil ditambahkan 👍")
   }
 
   onMounted(() => {
     getPinjamanDetail()
+    setTimeout(() => {
+      console.log(cicilan.value)
+    }, 5000);
   })
 </script>
 

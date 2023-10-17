@@ -15,7 +15,8 @@
       nama_pinjaman: nama.value,
       jumlah_pinjaman: parseInt(jumlah.value),
       jangka_waktu: parseInt(waktu.value),
-      tanggal_pelunasan: lunas.value
+      tanggal_pelunasan: lunas.value,
+      sisa_cicilan: parseInt(jumlah.value),
     })
     alert("Cicilan berhasil ditambah")
     router.push('/cicilan')

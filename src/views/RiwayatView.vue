@@ -2,6 +2,7 @@
   <h1>Riwayat Cicilan</h1>
   <div v-if="loading">Loading...</div>
   <div v-else class="riwayat-container">
+    <button type="button" @click="toggleSort">Toggle sort</button>
     <table>
       <tr>
         <th>No.</th>
@@ -24,11 +25,18 @@ import { onMounted, ref } from 'vue';
 import supabase from '../lib/supabaseClient';
 import rupiah from '../lib/rupiah'
 
-const riwayat = ref({})
-const loading = ref(false)
 const props = defineProps({
   limit: Number
-})
+}
+)
+const riwayat = ref({})
+const loading = ref(false)
+const ascending = ref(true)
+
+const toggleSort = () => {
+  ascending.value = !ascending.value
+  getRiwayat()
+} 
 
 async function getRiwayat() {
   loading.value = true
@@ -42,7 +50,8 @@ async function getRiwayat() {
       nama_pinjaman
     )
   `)
-  .order('tanggal_pembayaran', {ascending: false})
+  .order('tanggal_pembayaran', { ascending: ascending.value })
+  .order('sisa_cicilan', { ascending: !ascending.value })
   .limit(props.limit)
   if (error) throw error
   if (data) riwayat.value = data
@@ -70,6 +79,9 @@ th, td {
 }
 th {
   background-color: #125313;
+}
+tr {
+  cursor: pointer;
 }
 tr:hover {
   background-color: #128937;

@@ -31,7 +31,7 @@ async function getLatestCicilan() {
 	const { data, error } = await supabase
   .from("pinjaman")
   .select()
-  .order("tanggal_pelunasan", { ascending: true })
+  .order("sisa_cicilan", { ascending: false })
   .limit(4)
 	if (error) console.log(error)
 	if (data) cicilan.value = data
@@ -53,12 +53,6 @@ onMounted(() => {
 @media (min-width: 960px) {
 	.cicilan-grid {
 		grid-template-columns: 1fr 1fr;
-	}
-}
-
-@media (min-width: 1360px) {
-	.cicilan-grid {
-		grid-template-columns: 1fr 1fr 1fr;
 	}
 }
 </style>

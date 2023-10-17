@@ -13,8 +13,12 @@ async function getPinjaman() {
 	const { data, error } = await supabase
 	.from("pinjaman")
 	.select()
+	.order('sisa_cicilan', { ascending: false })
 	if (error) console.log(error)
-	if (data) cicilan.value = data
+	if (data) {
+		cicilan.value = data
+		console.log(cicilan.value)
+	}
 	loading.value = false
 }
 
@@ -45,19 +49,19 @@ h2 {
 }
 .cicilan-grid {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1fr;
 	gap: 20px 36px;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 600px) {
 	.cicilan-grid {
-		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-columns: 1fr 1fr;
 	}
 }
 
 @media (min-width: 1360px) {
 	.cicilan-grid {
-		grid-template-columns: 1fr 1fr 1fr 1fr;
+		grid-template-columns: 1fr 1fr 1fr;
 	}
 }
 </style>
