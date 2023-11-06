@@ -6,16 +6,17 @@
   const nama = ref()
   const jumlah = ref()
   const waktu = ref()
-  const lunas = ref()
 
   async function tambah() {
+    let currentDate = new Date()
+    const lunas = new Date(currentDate.setMonth(currentDate.getMonth() + jumlah.value))
     await supabase
     .from('pinjaman')
     .insert({
       nama_pinjaman: nama.value,
       jumlah_pinjaman: parseInt(jumlah.value),
       jangka_waktu: parseInt(waktu.value),
-      tanggal_pelunasan: lunas.value,
+      tanggal_pelunasan: lunas,
       sisa_cicilan: parseInt(jumlah.value),
     })
     alert("Cicilan berhasil ditambah")
